@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import "../css/PokeCard.css";
 
-function PokeCard({ pokemonData }) {
+function PokemonCard({ pokemonData }) {
     const [pokemonInfo, setPokemonInfo] = useState([]);
 
     useEffect(() => {
@@ -35,6 +35,10 @@ function PokeCard({ pokemonData }) {
         return pokemon.types.map((type) => type.type.name).slice(0,1);
     }
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     return (
         <div>
             {pokemonInfo.map((pokemon, index) => (
@@ -45,8 +49,8 @@ function PokeCard({ pokemonData }) {
                     </div>
                     <div className="pokemon-info">
                     <div className="pokemon-name-type">
-                            <h3>{pokemon.name}</h3>
-                            <p>{getTypes(pokemon)}</p>
+                            <h3>{capitalizeFirstLetter(pokemon.name)}</h3>
+                            <button>{getTypes(pokemon)}</button>
                         </div>
                         <div className="pokemon-stats">
                             <p>HP: {getStat(pokemon, 'hp')}</p>
@@ -60,4 +64,4 @@ function PokeCard({ pokemonData }) {
     );
 }
 
-export default PokeCard;
+export default PokemonCard;
