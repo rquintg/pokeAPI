@@ -1,16 +1,19 @@
+import {useEffect, useState} from "react";
 import PokeCard from "./components/PokeCard.jsx";
 import {getAllPokemon} from "./services/api.js";
 import './App.css'
-import {useEffect} from "react";
+
 
 function App() {
+
+    const [pokemonData, setPokemonData] = useState([]);
 
     useEffect( () => {
 
         const loadPokemon = async () => {
             try {
                 const pokemon = await getAllPokemon();
-                console.log(pokemon);
+                setPokemonData(pokemon);
             } catch (error) {
                 console.error(error);
             }
@@ -22,7 +25,9 @@ function App() {
 
   return (
     <>
-       <PokeCard />
+       <PokeCard
+              pokemonData={pokemonData}
+       />
     </>
   )
 }
