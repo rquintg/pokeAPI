@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import PokeCard from "./components/PokeCard.jsx";
+import PokemonCard from "./components/PokemonCard.jsx";
 import {getAllPokemon} from "./services/api.js";
 import './App.css'
 
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-       <PokeCard
+       <PokemonCard
               pokemonData={pokemonData}
        />
     </>
