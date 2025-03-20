@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import {getColorPokemon} from "../services/api.js";
 
-import "../css/PokeCard.css";
+import "../css/PokemonCard.css";
 
 function PokemonCard({ pokemonData }) {
     const [pokemonInfo, setPokemonInfo] = useState([]);
+    const [pokemonColor, setPokemonColor] = useState(null);
 
     useEffect(() => {
         const fetchPokemonDetails = async () => {
@@ -24,7 +26,23 @@ function PokemonCard({ pokemonData }) {
         }
     }, [pokemonData]);
 
-    console.log(pokemonInfo);
+
+
+    /*function getPokemonColor(pokemon) {
+        pokemon.map(async (element) => {
+            const color = await getColorPokemon(element.id);
+            console.log(color);
+            setPokemonColor(color);
+        })
+    }
+
+    getPokemonColor(pokemonInfo);*/
+
+    //TODO: Fix the color of the button tag
+    //TODO: add weaknesses and strengths
+
+
+
 
     const getStat = (pokemon, statName) => {
         const stat = pokemon.stats.find((stat) => stat.stat.name === statName);
@@ -32,7 +50,8 @@ function PokemonCard({ pokemonData }) {
     };
 
     const getTypes = (pokemon) => {
-        return pokemon.types.map((type) => type.type.name).slice(0,1);
+
+        return pokemon.types.map((type) => capitalizeFirstLetter(type.type.name)).slice(0,1);
     }
 
     const capitalizeFirstLetter = (string) => {
@@ -50,12 +69,12 @@ function PokemonCard({ pokemonData }) {
                     <div className="pokemon-info">
                     <div className="pokemon-name-type">
                             <h3>{capitalizeFirstLetter(pokemon.name)}</h3>
-                            <button>{getTypes(pokemon)}</button>
+                            <button className={{backgroundColor : pokemonColor}}>{getTypes(pokemon)}</button>
                         </div>
                         <div className="pokemon-stats">
-                            <p>HP: {getStat(pokemon, 'hp')}</p>
-                            <p>Attack: {getStat(pokemon, 'attack')}</p>
-                            <p>Defense: {getStat(pokemon, 'defense')}</p>
+                            <p>HP {getStat(pokemon, 'hp')}</p>
+                            <p>Wh {pokemon.weight}</p>
+                            <p>Def {getStat(pokemon, 'defense')}</p>
                         </div>
                     </div>
                 </div>
