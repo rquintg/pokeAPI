@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {getColorPokemon} from "../services/api.js";
+import {getColorPokemon, getTypePokemon} from "../services/api.js";
 
 import "../css/PokemonCard.css";
 
@@ -26,6 +26,8 @@ function PokemonCard({ pokemonData }) {
         }
     }, [pokemonData]);
 
+    console.log(pokemonInfo)
+
     useEffect(() => {
         const fetchPokemonColors = async () => {
             try {
@@ -44,15 +46,20 @@ function PokemonCard({ pokemonData }) {
             }
         };
 
+        try{
+            const fetchWeaknesses = async () => {
+
+            }
+        }catch (error) {
+            console.error("Error fetching Pokémon colors:", error);
+        }
+
         if (pokemonInfo.length > 0) {
             fetchPokemonColors();
         }
     }, [pokemonInfo]);
 
     //TODO: add weaknesses and strengths
-    //TODO: add replace defense to exp
-    //TODO: add pokedex id
-
 
     const getStat = (pokemon, statName) => {
         const stat = pokemon.stats.find((stat) => stat.stat.name === statName);
@@ -91,7 +98,7 @@ function PokemonCard({ pokemonData }) {
                         <div className="pokemon-stats">
                             <p>HP {getStat(pokemon, 'hp')}</p>
                             <p>Wh {pokemon.weight}</p>
-                            <p>Def {getStat(pokemon, 'defense')}</p>
+                            <p>Exp {pokemon.base_experience}</p>
                         </div>
                     </div>
                 </div>
