@@ -10,3 +10,9 @@ export const getColorPokemon = async (pokemon) => {
     const data = await response.json();
     return data.color.name;
 }
+
+export const getTypePokemon = async (pokemon) => {
+    const response = await fetch(`https://pokeapi.co/api/v2/type/${pokemon}`);
+    const data = await response.json();
+    return data;
+}
