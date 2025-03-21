@@ -49,8 +49,9 @@ function PokemonCard({ pokemonData }) {
         }
     }, [pokemonInfo]);
 
-    //TODO: Fix the color of the button tag
     //TODO: add weaknesses and strengths
+    //TODO: add replace defense to exp
+    //TODO: add pokedex id
 
 
     const getStat = (pokemon, statName) => {
@@ -74,6 +75,11 @@ function PokemonCard({ pokemonData }) {
                     <div className="pokemon-card-img">
                         <img src={pokemon.sprites.other['official-artwork'].front_default}
                              alt={pokemon.name}/>
+                    </div>
+                    <div className="pokemon-overlay">
+                        <div className="pokedex-number">
+                            {pokemon.id}
+                        </div>
                     </div>
                     <div className="pokemon-info">
                     <div className="pokemon-name-type">
