@@ -5,7 +5,7 @@ import "../css/PokemonCard.css";
 
 function PokemonCard({ pokemonData }) {
     const [pokemonInfo, setPokemonInfo] = useState([]);
-    const [pokemonColor, setPokemonColor] = useState(null);
+    const [pokemonColor, setPokemonColor] = useState({});
 
     useEffect(() => {
         const fetchPokemonDetails = async () => {
@@ -26,22 +26,31 @@ function PokemonCard({ pokemonData }) {
         }
     }, [pokemonData]);
 
+    useEffect(() => {
+        const fetchPokemonColors = async () => {
+            try {
+                const colorPromises = pokemonInfo.map(async (pokemon) => {
+                    const color = await getColorPokemon(pokemon.id);
+                    return { id: pokemon.id, color };
+                });
+                const colors = await Promise.all(colorPromises);
+                const colorMap = colors.reduce((acc, { id, color }) => {
+                    acc[id] = color;
+                    return acc;
+                }, {});
+                setPokemonColor(colorMap);
+            } catch (error) {
+                console.error("Error fetching Pokémon colors:", error);
+            }
+        };
 
-
-    /*function getPokemonColor(pokemon) {
-        pokemon.map(async (element) => {
-            const color = await getColorPokemon(element.id);
-            console.log(color);
-            setPokemonColor(color);
-        })
-    }
-
-    getPokemonColor(pokemonInfo);*/
+        if (pokemonInfo.length > 0) {
+            fetchPokemonColors();
+        }
+    }, [pokemonInfo]);
 
     //TODO: Fix the color of the button tag
     //TODO: add weaknesses and strengths
-
-
 
 
     const getStat = (pokemon, statName) => {
@@ -69,7 +78,9 @@ function PokemonCard({ pokemonData }) {
                     <div className="pokemon-info">
                     <div className="pokemon-name-type">
                             <h3>{capitalizeFirstLetter(pokemon.name)}</h3>
-                            <button className={{backgroundColor : pokemonColor}}>{getTypes(pokemon)}</button>
+                            <button style={{backgroundColor: pokemonColor[pokemon.id] || ''}}>
+                                {getTypes(pokemon)}
+                            </button>
                         </div>
                         <div className="pokemon-stats">
                             <p>HP {getStat(pokemon, 'hp')}</p>
